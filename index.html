@@ -1,0 +1,94 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RetinaLens AI</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@200..800&family=Manrope:wght@200..800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#5b13ec",
+                        "primary-light": "#8a5cf5",
+                        "secondary": "#ff6b6b",
+                        "background-light": "#F8F9FA",
+                        "background-dark": "#0f0a1a",
+                        "surface-light": "rgba(255, 255, 255, 0.6)",
+                        "surface-dark": "rgba(35, 27, 51, 0.6)",
+                    },
+                    fontFamily: {
+                        "display": ["Outfit", "sans-serif"],
+                        "sans": ["Manrope", "sans-serif"],
+                    },
+                    animation: {
+                        'spin-slow': 'spin 30s linear infinite',
+                        'spin-slower': 'spin 45s linear infinite',
+                        'spin-reverse': 'spin 35s linear infinite reverse',
+                        'pulse-slow': 'pulse 5s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                        'float': 'float 8s ease-in-out infinite',
+                        'blob': 'blob 10s infinite',
+                    },
+                    keyframes: {
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(-20px)' },
+                        },
+                        blob: {
+                            '0%': { transform: 'translate(0px, 0px) scale(1)' },
+                            '33%': { transform: 'translate(30px, -50px) scale(1.1)' },
+                            '66%': { transform: 'translate(-20px, 20px) scale(0.9)' },
+                            '100%': { transform: 'translate(0px, 0px) scale(1)' },
+                        }
+                    }
+                },
+            },
+        }
+    </script>
+    <style>
+        .glass {
+            background: rgba(255, 255, 255, 0.75);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+        }
+        .dark .glass {
+            background: rgba(15, 10, 26, 0.75);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+        .mesh-grid {
+            background-size: 40px 40px;
+            background-image: linear-gradient(to right, rgba(91, 19, 236, 0.03) 1px, transparent 1px),
+                              linear-gradient(to bottom, rgba(91, 19, 236, 0.03) 1px, transparent 1px);
+            mask-image: radial-gradient(circle at center, black 40%, transparent 80%);
+            -webkit-mask-image: radial-gradient(circle at center, black 40%, transparent 80%);
+        }
+        .radar-sweep {
+            background: conic-gradient(from 180deg at 50% 50%, rgba(91, 19, 236, 0) 0deg, rgba(91, 19, 236, 0) 200deg, rgba(91, 19, 236, 0.6) 360deg);
+        }
+        .iris-gradient {
+            background: conic-gradient(from 180deg at 50% 50%, rgba(91,19,236,0) 0deg, rgba(91,19,236,0.1) 120deg, rgba(255,107,107,0.1) 240deg, rgba(91,19,236,0) 360deg);
+        }
+    </style>
+<script type="importmap">
+{
+  "imports": {
+    "react/": "https://esm.sh/react@^19.2.3/",
+    "react": "https://esm.sh/react@^19.2.3",
+    "@google/genai": "https://esm.sh/@google/genai@^1.34.0",
+    "react-dom/": "https://esm.sh/react-dom@^19.2.3/"
+  }
+}
+</script>
+<link rel="stylesheet" href="/index.css">
+</head>
+<body class="bg-background-light dark:bg-background-dark font-sans selection:bg-primary/20">
+    <div id="root"></div>
+<script type="module" src="/index.tsx"></script>
+</body>
+</html>
