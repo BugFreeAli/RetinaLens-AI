@@ -1,7 +1,7 @@
 // services/detectionService.ts
 
 // 🟢 REPLACE THIS WITH YOUR ACTUAL HUGGING FACE URL
-const API_URL = "https://bugfreeali-retina_malaika.hf.space/api/predict";
+const API_URL = "https://bugfreeali-retina-malaika.hf.space/api/predict";
 
 export interface DetectionResult {
   diagnosis: string;
