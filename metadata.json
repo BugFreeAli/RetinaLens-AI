@@ -1,0 +1,7 @@
+{
+  "name": "RetinaLens AI",
+  "description": "Next-generation diabetic retinopathy screening powered by deep learning algorithms and Gemini Vision Intelligence.",
+  "requestFramePermissions": [
+    "camera"
+  ]
+}
