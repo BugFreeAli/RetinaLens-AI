@@ -161,17 +161,6 @@ const ResultView: React.FC<ResultViewProps> = ({ result, onReset }) => {
                   <span className="material-symbols-outlined text-xl">restart_alt</span>
                   New Analysis
                 </button>
-                <div className="flex gap-4">
-                  <button className="px-6 py-3 rounded-full bg-white dark:bg-slate-800 border border-slate-200 dark:border-white/10 font-bold text-sm shadow-sm hover:bg-slate-50 transition-colors flex items-center gap-2">
-                    <span className="material-symbols-outlined text-xl">print</span>
-                    Print
-                  </button>
-                  <button className={`px-8 py-3 rounded-full text-white font-bold text-sm shadow-xl transition-all flex items-center gap-2 ${
-                    isPositive ? 'bg-secondary hover:bg-red-500 shadow-secondary/30' : 'bg-primary hover:bg-indigo-700 shadow-primary/30'
-                  }`}>
-                    <span className="material-symbols-outlined text-xl">picture_as_pdf</span>
-                    Export Full Report
-                  </button>
                 </div>
               </div>
             </div>
