@@ -1,305 +1,81 @@
 <div align="center">
 
-<h1>🔬 RetinaLens AI</h1>
+  <h1>👁️ RetinaLens AI</h1>
+  <h3>Clinical Decision Support System for Diabetic Retinopathy</h3>
+  
+  <p>
+    <strong>An end-to-end medical deep learning platform achieving 96.24% accuracy in automated retinal screening.</strong>
+  </p>
 
-<p><strong>Next-generation diabetic retinopathy screening powered by deep learning & Gemini Vision Intelligence.</strong></p>
+  <p>
+    <a href="#-machine-learning-architecture"><strong>🧠 The ML Engine</strong></a> •
+    <a href="#-the-secret-sauce-ben-graham-processing"><strong>🔬 Medical Preprocessing</strong></a> •
+    <a href="#-system-architecture"><strong>🏗️ Architecture</strong></a>
+  </p>
 
-<p>
-  <img src="https://img.shields.io/badge/React-19.2-61DAFB?style=flat-square&logo=react&logoColor=black" alt="React 19">
-  <img src="https://img.shields.io/badge/TypeScript-5.8-3178C6?style=flat-square&logo=typescript&logoColor=white" alt="TypeScript 5.8">
-  <img src="https://img.shields.io/badge/Vite-6.2-646CFF?style=flat-square&logo=vite&logoColor=white" alt="Vite 6.2">
-  <img src="https://img.shields.io/badge/Tailwind_CSS-3-06B6D4?style=flat-square&logo=tailwindcss&logoColor=white" alt="Tailwind CSS">
-  <img src="https://img.shields.io/badge/Google_Gemini-Vision_AI-4285F4?style=flat-square&logo=google&logoColor=white" alt="Google Gemini">
-  <img src="https://img.shields.io/badge/Model_Accuracy-96.24%25-8A2BE2?style=flat-square" alt="Model Accuracy 96.24%">
-  <img src="https://img.shields.io/badge/AUC--ROC-0.98-success?style=flat-square" alt="AUC-ROC 0.98">
-</p>
+  <img src="https://img.shields.io/badge/Python-3.10-3776AB?style=for-the-badge&logo=python&logoColor=white" />
+  <img src="https://img.shields.io/badge/TensorFlow-2.17-FF6F00?style=for-the-badge&logo=tensorflow&logoColor=white" />
+  <img src="https://img.shields.io/badge/OpenCV-Computer_Vision-5C3EE8?style=for-the-badge&logo=opencv&logoColor=white" />
+  <img src="https://img.shields.io/badge/FastAPI-0.109-009688?style=for-the-badge&logo=fastapi&logoColor=white" />
+  <img src="https://img.shields.io/badge/React-Vite-61DAFB?style=for-the-badge&logo=react&logoColor=black" />
 
 </div>
 
 ---
 
-## 📖 Overview
+## 📖 Executive Summary
 
-**RetinaLens AI** is a full-stack medical imaging web application that enables instant, AI-driven screening of diabetic retinopathy (DR) from retinal fundus photographs. A clinician or researcher uploads a scan, and the system returns a structured diagnostic report in seconds — including a confidence score, specific lesion findings, and a referral recommendation.
+**RetinaLens AI** is a full-stack, production-ready artificial intelligence system designed to assist ophthalmologists in diagnosing Diabetic Retinopathy (DR) from fundus photography. 
 
-The backend inference is powered by a fine-tuned **EfficientNetV2-B2** model (Transfer Learning, APTOS 2019 dataset) hosted on Hugging Face Spaces. The frontend is built with **React 19 + TypeScript**, styled using **Tailwind CSS** glassmorphism, and augmented with **Google Gemini Vision Intelligence** via `@google/genai`.
-
-> Diabetic retinopathy is the leading cause of preventable blindness worldwide. Automated early screening can save millions from vision loss.
+By bridging the gap between advanced Computer Vision techniques and modern web deployment, this project demonstrates how deep learning can be packaged into a secure, low-latency, and highly accurate clinical tool.
 
 ---
 
-## ✨ Features
+## 🧠 Machine Learning Architecture
 
-| Feature | Description |
-|---|---|
-| 📤 **Drag & Drop Upload** | Click or drag-and-drop any retinal fundus image (DICOM, PNG, JPG) |
-| 🧠 **Deep Learning Inference** | EfficientNetV2-B2 model served from a live Hugging Face Space API |
-| 📊 **Confidence Scoring** | Animated SVG circular progress indicator (0 – 100 %) |
-| 🔎 **Structured Findings** | Microaneurysms, haemorrhages, exudates, vascular density, optic disc |
-| 📋 **Clinical Recommendations** | Ophthalmologist referral urgency & next exam timeline |
-| 🎬 **Live Scanning Animation** | Real-time progress bar with task stages (Neural Engine → Vascular Trace → Report) |
-| 🎭 **Demo Mode** | Built-in Positive (abnormal) and Negative (healthy) test cases — no upload needed |
-| 🎨 **Glassmorphism UI** | Dark-mode-first design with animated mesh grid, blob glow, and rotating rings |
-| 📱 **Fully Responsive** | Optimised for mobile, tablet, and desktop viewports |
-| 🔒 **End-to-End Encryption** | Secure HTTPS image transfer; no persistent storage |
-| ⚡ **HMR & Fast Builds** | Vite 6 with React plugin for instant hot-module replacement |
+Building a medical AI requires more than generic image classification. The model was engineered to detect microscopic features (microaneurysms, hard exudates, and hemorrhages) while remaining lightweight enough for CPU-based cloud deployment.
+
+### 1. Model Selection: `EfficientNetV2-B2`
+*   **Why EfficientNetV2?** Unlike traditional ResNet architectures, EfficientNetV2 utilizes Fused-MBConv layers, maximizing parameter efficiency and texture extraction.
+*   **Why the B2 Variant?** The B2 model accepts an input resolution of **260x260 pixels**. This is the critical "Medical Sweet Spot"—high enough to detect tiny retinal hemorrhages, but optimized enough to yield sub-second inference times on a standard server.
+
+### 2. Training Strategy
+*   **Transfer Learning:** Initialized with `ImageNet` weights.
+*   **Phase 1 (Warmup):** Frozen base model, training only the custom dense classification head using the Adam optimizer to establish baseline spatial awareness.
+*   **Phase 2 (Deep Fine-Tuning):** Unfroze the top 40% of the network, utilizing a significantly lower learning rate (`1e-5`) to force the model to unlearn generic objects and adapt specifically to vascular structures.
+*   **Class Balancing:** Handled dataset asymmetry dynamically by computing exact inverse-frequency class weights prior to training, ensuring zero bias toward the "Healthy" majority class.
 
 ---
 
-## 🛠 Tech Stack
+## 🔬 The "Secret Sauce": Ben Graham Processing
 
-### Frontend
+Feeding raw fundus images into a neural network often results in a phenomenon known as the **Domain Gap**—the model learns to classify the *lighting* and *camera type* rather than the disease. 
 
-| Technology | Version | Role |
-|---|---|---|
-| **React** | 19.2 | Component-based SPA framework |
-| **TypeScript** | 5.8 | Static typing for all components and services |
-| **Vite** | 6.2 | Build tool, dev server with HMR (port 3000) |
-| **Tailwind CSS** | 3 (CDN) | Utility-first styling with custom design tokens |
-| **Google Fonts** | Outfit / Manrope | Display and body typefaces |
-| **Material Symbols** | Latest | Icon library from Google |
+To achieve clinical accuracy, I implemented a robust **OpenCV** preprocessing pipeline inspired by Kaggle Grandmaster Ben Graham:
 
-### AI & Backend
-
-| Technology | Role |
-|---|---|
-| **@google/genai 1.34** | Gemini Vision Intelligence API integration |
-| **EfficientNetV2-B2** | Transfer-learning DR classification model (9.2 M parameters) |
-| **Hugging Face Spaces** | Python inference API hosting |
+1.  **Circular Contour Cropping:** Algorithmically detects and removes the uninformative black void surrounding the retina, focusing 100% of the tensor space on biological data.
+2.  **Gaussian Blur Subtraction:** Applies a localized color/lighting normalization via `cv2.addWeighted`. This strips away lighting variations (orange/red biases) and creates a high-contrast map where veins and pathological lesions drastically "pop" out to the convolutional filters.
 
 ---
 
-## 🧠 ML Model Details
+## 📊 Dataset & Performance Metrics
 
-### Architecture — EfficientNetV2-B2
+Trained on the **APTOS 2019 Blindness Detection** dataset (3,662 high-resolution clinical samples from Aravind Eye Hospital, India). The 5-tier ICDRSS severity scale was mapped into a high-utility **Binary Classification** task (Referable vs. Non-Referable).
 
-```
-Input: Retinal Fundus Photograph
-          │
-          ▼
-  Ben Graham Preprocessing
-  ┌─────────────────────────────────────┐
-  │ • Gaussian blur subtraction         │  ← vein enhancement
-  │ • Auto-crop to isolate optic disc   │
-  │ • Pixel normalisation               │
-  │ • Noise reduction                   │
-  └─────────────────────────────────────┘
-          │
-          ▼
-  EfficientNetV2-B2 Backbone
-  (ImageNet pre-trained, fine-tuned on APTOS 2019)
-          │
-          ▼
-  Binary Classification Head
-          │
-          ▼
-  Output → "Disease Detected" | "No Disease"
-         + Confidence score (0 – 1)
-         + Raw score
-```
-
-### Training Dataset — APTOS 2019
-
-| Property | Value |
-|---|---|
-| Source | Aravind Eye Hospital fundus database |
-| Images | 3,662 ultra-high-resolution photographs |
-| Class balance | 50 / 50 (disease / no disease) |
-| Preprocessing | Ben Graham method (OpenCV pipeline) |
-
-### Performance Metrics
-
-| Metric | Score |
-|---|---|
-| **Accuracy** | **96.24 %** |
-| **AUC-ROC** | **0.98** |
-| **F1 Score** | **0.978** |
-| **Sensitivity** | **94.1 %** |
-| **Validation Set** | 585 unseen clinical samples |
+*   **Validation Accuracy:** `96.24%`
+*   **Validation Loss:** `0.1043`
+*   **Data Split:** 80% Training / 20% Hold-out Validation
+*   **Augmentation:** Heavy rotational and flip augmentation (valid for circular fundus scans) to artificially expand the dataset footprint.
 
 ---
 
-## 🏗 Application Architecture
+## 🏗️ System Architecture
 
-```
-┌──────────────────────────────────────────────────────────┐
-│                    React Frontend (Vite)                  │
-│                                                          │
-│  ┌───────────────┐    ┌────────────────┐    ┌──────────┐ │
-│  │  LandingView  │───▶│  ScanningView  │───▶│ResultView│ │
-│  │               │    │                │    │          │ │
-│  │ • Upload zone │    │ • Progress bar │    │• Findings│ │
-│  │ • Model specs │    │ • Task stages  │    │• Confidence││
-│  │ • Demo buttons│    │ • Retina lens  │    │• Actions │ │
-│  └───────────────┘    └────────────────┘    └──────────┘ │
-│           │                    │                         │
-│           ▼                    ▼                         │
-│   handleFileUpload()      analyzeImage()                 │
-│           │                    │                         │
-│           └────────────────────┘                         │
-│                       │                                  │
-│              detectionService.ts                         │
-└───────────────────────┼──────────────────────────────────┘
-                        │  POST /api/predict
-                        │  multipart/form-data { file }
-                        ▼
-        ┌──────────────────────────────────┐
-        │  Hugging Face Spaces (Python)    │
-        │  EfficientNetV2-B2 Inference     │
-        │                                  │
-        │  Response: {                     │
-        │    diagnosis: string,            │
-        │    confidence: number,           │
-        │    raw_score: number             │
-        │  }                               │
-        └──────────────────────────────────┘
-```
+The application operates on a decoupled **Microservices Architecture**, ensuring high availability and separation of concerns.
 
-### App State Machine
-
-```
-  LANDING ──(upload / demo)──▶ SCANNING ──(API response)──▶ RESULT
-     ▲                                                          │
-     └──────────────────── (New Analysis) ─────────────────────┘
-```
-
----
-
-## 🗂 Project Structure
-
-```
-RetinaLens-AI/
-├── components/
-│   └── Layout.tsx            # Shared header, footer, animated background
-├── views/
-│   ├── LandingView.tsx       # Upload UI, animated rings, model spec cards
-│   ├── ScanningView.tsx      # Live progress bar, radar sweep animation
-│   └── ResultView.tsx        # Diagnosis card, findings grid, confidence ring
-├── services/
-│   └── detectionService.ts   # Hugging Face API client (fetch + FormData)
-├── types.ts                  # AppState enum, AnalysisResult, PatientInfo
-├── constants.ts              # Demo patient data, sample image URLs
-├── App.tsx                   # Root component — state machine & handlers
-├── index.tsx                 # ReactDOM.createRoot entry point
-├── index.html                # HTML shell, Tailwind CDN config, custom CSS
-├── vite.config.ts            # Vite server (port 3000), env variable injection
-├── tsconfig.json             # TypeScript: ESNext, bundler resolution, no emit
-└── package.json              # Dependencies: react 19, @google/genai, vite 6
-```
-
----
-
-## 🚀 Getting Started
-
-### Prerequisites
-
-- **Node.js** ≥ 18  
-- **npm** ≥ 9  
-- A **Google Gemini API key** ([get one free](https://aistudio.google.com/app/apikey))
-
-### Installation
-
-```bash
-# 1. Clone the repository
-git clone https://github.com/BugFreeAli/RetinaLens-AI.git
-cd RetinaLens-AI
-
-# 2. Install dependencies
-npm install
-
-# 3. Create your environment file
-echo "GEMINI_API_KEY=your_key_here" > .env
-
-# 4. Start the development server
-npm run dev
-# → http://localhost:3000
-```
-
-### Scripts
-
-| Command | Description |
-|---|---|
-| `npm run dev` | Start Vite dev server with HMR on port 3000 |
-| `npm run build` | Production build output to `/dist` |
-| `npm run preview` | Serve the production build locally |
-
----
-
-## 📡 API Reference
-
-### Inference Endpoint
-
-```
-POST https://bugfreeali-retina-malaika.hf.space/api/predict
-Content-Type: multipart/form-data
-```
-
-**Request body**
-
-| Field | Type | Description |
-|---|---|---|
-| `file` | `File` | Retinal fundus image (JPG / PNG / DICOM) |
-
-**Response body**
-
-```json
-{
-  "diagnosis": "Disease Detected",
-  "confidence": 96.24,
-  "raw_score": 0.9312
-}
-```
-
-**Frontend mapping**
-
-| `diagnosis` value | UI Label | Condition Name |
-|---|---|---|
-| `"Disease Detected"` | ✅ Positive | Referable Diabetic Retinopathy |
-| `"No Disease"` | ✅ Negative | No Abnormalities Detected |
-
-**Inferred findings (binary model)**
-
-| Case | Findings |
-|---|---|
-| Positive | Microaneurysms (High Risk), Haemorrhages (High Risk), Exudates |
-| Negative | Macula (Clear), Optic Disc (Normal), Vascular Density (Normal) |
-
----
-
-## 🎨 Design System
-
-| Token | Value |
-|---|---|
-| Primary | `#5b13ec` (Purple) |
-| Primary Light | `#8a5cf5` |
-| Secondary | `#ff6b6b` (Coral Red) |
-| Background Dark | `#0f0a1a` |
-| Background Light | `#F8F9FA` |
-| Display Font | Outfit (200–800) |
-| Body Font | Manrope (200–800) |
-
-Custom CSS utilities: `.glass` (backdrop-blur glassmorphism), `.mesh-grid` (SVG grid overlay), `.radar-sweep` (conic-gradient animation), `.iris-gradient`.
-
-Custom Tailwind animations: `spin-slow` (30 s), `spin-slower` (45 s), `spin-reverse` (35 s), `pulse-slow` (5 s), `float` (8 s), `blob` (10 s).
-
----
-
-## 🔒 Security & Compliance
-
-| Aspect | Detail |
-|---|---|
-| API Key handling | Loaded via `.env` and injected at build time — never hard-coded |
-| Image transfer | HTTPS only; no images are persisted server-side |
-| In-memory preview | `URL.createObjectURL()` is used for local preview only |
-| Medical disclaimer | Results are AI screening aids — not a substitute for clinical diagnosis |
-| Version | RetinaLens AI v4.2.0 · FDA Cleared reference in UI |
-
----
-
-<div align="center">
-
-Built with ❤️ by **[BugFreeAli](https://github.com/BugFreeAli)**
-
-*Bringing clinical-grade AI to retinal screening — one scan at a time.*
-
-</div>
+```mermaid
+graph LR
+  A[React/Vite Client] -->|Uploads Image| B(FastAPI Server)
+  B -->|OpenCV Processing| C[Ben Graham Filter]
+  C -->|Inference| D[EfficientNet Tensor]
+  D -->|JSON Response| A
