@@ -30,6 +30,10 @@
 By bridging the gap between advanced Computer Vision techniques and modern web deployment, this project demonstrates how deep learning can be packaged into a secure, low-latency, and highly accurate clinical tool.
 
 ---
+<img width="595" height="593" alt="Screenshot 2026-03-27 094332" src="https://github.com/user-attachments/assets/8769d04e-4c75-4a11-a327-ef4530ac6861" />
+
+
+<img width="973" height="594" alt="image" src="https://github.com/user-attachments/assets/615d78b3-b01b-4e54-bb86-2050cc1b0bcf" />
 
 ## 🧠 Machine Learning Architecture
 
